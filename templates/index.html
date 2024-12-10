@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredient Pairing Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fff0f5; /* Lavender Blush */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            width: 100%;
+            background-color: #E91E63; /* Pink */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 500;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-menu a:hover {
+            background-color: #D81B60;
+        }
+
+        /* Container Styles */
+        .container {
+            width: 90%;
+            max-width: 800px; /* Increased max-width for full coverage */
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 10px 60px 40px; /* Increased padding for better spacing */
+            margin: 120px auto 20px; /* Adjusted margin to avoid overlap with navbar */
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #E91E63;
+        }
+
+        /* Introductory Paragraph */
+        .intro {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        /* Image Carousel */
+        .carousel {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 300px;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .carousel-images {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        /* Navigation Buttons (Optional) */
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(233, 30, 99, 0.7);
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 18px;
+            z-index: 10;
+        }
+
+        .carousel-button.prev {
+            left: 10px;
+        }
+
+        .carousel-button.next {
+            right: 10px;
+        }
+
+        /* Hide navigation buttons on mobile */
+        @media (max-width: 768px) {
+            .carousel-button {
+                display: none;
+            }
+        }
+
+        label {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+            display: block;
+            text-align: left;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0 20px;
+            border: 2px solid #E91E63;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #fff0f5;
+            transition: border 0.3s ease;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border: 2px solid #C2185B;
+            outline: none;
+        }
+
+        button {
+            padding: 15px 30px;
+            background-color: #E91E63;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #C2185B;
+        }
+
+        /* Substitutes Section */
+        .substitutes {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ffe4e1; /* Misty Rose */
+            border-radius: 8px;
+            border: 1px solid #E91E63;
+            text-align: left;
+        }
+
+        .substitutes h3 {
+            margin-top: 0;
+            color: #E91E63;
+        }
+
+        .substitute-item {
+            font-size: 18px;
+            color: #555;
+            margin: 8px 0;
+            padding-left: 10px;
+        }
+
+        .substitute-item::before {
+            content: "🔄 ";
+            color: #E91E63;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar-menu {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar-menu a {
+                width: 100%;
+                text-align: left;
+                padding: 10px 0;
+            }
+
+            .container {
+                padding: 160px 20px 20px;
+                margin: 160px 10px 20px;
+            }
+
+            .carousel {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">Ingredient Pairing</a>
+            <div class="navbar-menu">
+                <a href="/">Home</a>
+                <a href="/visualization">Visualization</a>
+                <a href="/information">Information</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container" id="home">
+        <h1>Ingredient Pairing Tool</h1>        
+        <p class="intro">
+        Welcome to the Ingredient Pairing Tool! Our platform is designed to help you discover the best ingredient pairings based on the concept of uniform molecule pairing, ensuring your recipes remain delicious and balanced. Whether you're dealing with dietary restrictions, missing an ingredient, or simply looking to experiment with new flavors, our advanced algorithms suggest pairings based on the hypothesis that certain ingredients share similar molecular structures, leading to enhanced flavor profiles and complementary nutritional benefits. This approach allows you to explore and elevate your culinary experience with ease.
+        </p>
+        <div class="carousel">
+            <button class="carousel-button prev">&#10094;</button>
+            <div class="carousel-images">
+                <img src="https://www.tamilnadutourism.tn.gov.in/img/pages/large-desktop/nanjil-cuisine-1655739353_f512b891fcf183e76ea6.webp" alt="Ingredient Image 1">
+                <img src="https://restaurantindia.s3.ap-south-1.amazonaws.com/s3fs-public/2023-10/BeFunky-collage%20%2849%29_11zon.jpg" alt="Ingredient Image 2">
+                <img src="https://blog.windstarcruises.com/content/uploads/2021/10/Italian-Food.jpeg" alt="Ingredient Image 3">
+                <img src="https://scontent.fdel29-1.fna.fbcdn.net/v/t39.30808-6/376705066_794640869126069_4251072651477038277_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=2285d6&_nc_ohc=1nXosuiyI1AQ7kNvgG0QMTB&_nc_zt=23&_nc_ht=scontent.fdel29-1.fna&_nc_gid=AgxJGlyApKOaRjq5U9Z-Kmr&oh=00_AYD3zPRgUUp0nRTyFKyWGpMsA7NwuyXmIr20t-W7Y_sBwQ&oe=675DE1E5" alt="Ingredient Image 4">
+                <img src = "https://img.freepik.com/premium-photo/italian-cuisine-pizza-pasta-toasts_198067-540177.jpg" alt="Ingredient Image 5">
+            </div>
+            <button class="carousel-button next">&#10095;</button>
+        </div>
+
+        <form method="POST">
+            <label for="ingredient">Enter Ingredient to Pair:</label>
+            <input type="text" id="ingredient" name="ingredient" placeholder="e.g., Butter" required>
+            
+            <label for="algorithm">Choose Algorithm:</label>
+            <select id="algorithm" name="algorithm">
+                <option value="apriori" {% if selected_algorithm == 'apriori' %}selected{% endif %}>Apriori</option>
+                <option value="knn" {% if selected_algorithm == 'knn' %}selected{% endif %}>KNN</option>
+                <option value="svd" {% if selected_algorithm == 'svd' %}selected{% endif %}>SVD</option>
+                <option value="fp_growth" {% if selected_algorithm == 'fp_growth' %}selected{% endif %}>FP-Growth</option>
+                <option value="cosine" {% if selected_algorithm == 'cosine' %}selected{% endif %}>Cosine</option>
+                <option value="autoencoder" {% if selected_algorithm == 'autoencoder' %}selected{% endif %}>Autoencoder</option>
+                <option value="dbscan" {% if selected_algorithm == 'dbscan' %}selected{% endif %}>DBSCAN</option>
+            </select>
+            
+            <button type="submit">Find Pairings</button>
+        </form>
+        
+        {% if substitutes %}
+        <div id="substitutes" class="substitutes">
+            <h3>Suggested Pairings:</h3>
+            <ul id="substitute-list">
+                {% for substitute in substitutes %}
+                    <li class="substitute-item">{{ substitute }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        
+<script>
+    // Smooth scrolling for in-page navbar links
+    document.querySelectorAll('.navbar-menu a').forEach(anchor => {
+        const href = anchor.getAttribute('href');
+
+        if (href.startsWith('#')) {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 70, // Adjust for fixed navbar height
+                        behavior: 'smooth'
+                    });
+                }
+            });
+
+            // Toggle visibility for in-page sections when navbar links are clicked
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                document.querySelectorAll('.container').forEach(container => {
+                    if (container.id === targetId) {
+                        container.style.display = 'block';
+                    } else {
+                        container.style.display = 'none';
+                    }
+                });
+            });
+        }
+      
+
+    });
+
+    // Carousel Functionality (unchanged)
+    class Carousel {
+        constructor(carouselElement, interval = 2000) {
+            this.carousel = carouselElement;
+            this.imagesContainer = this.carousel.querySelector('.carousel-images');
+            this.images = this.imagesContainer.querySelectorAll('img');
+            this.totalImages = this.images.length;
+            this.currentIndex = 0;
+            this.intervalTime = interval;
+            this.interval = null;
+
+            // Bind navigation buttons
+            this.prevButton = this.carousel.querySelector('.carousel-button.prev');
+            this.nextButton = this.carousel.querySelector('.carousel-button.next');
+
+            if (this.prevButton && this.nextButton) {
+                this.prevButton.addEventListener('click', () => this.prevImage());
+                this.nextButton.addEventListener('click', () => this.nextImage());
+            }
+
+            this.startAutoSlide();
+            this.addHoverPause();
+        }
+
+        startAutoSlide() {
+            this.interval = setInterval(() => {
+                this.nextImage();
+            }, this.intervalTime);
+        }
+
+        stopAutoSlide() {
+            clearInterval(this.interval);
+        }
+
+        nextImage() {
+            this.currentIndex = (this.currentIndex + 1) % this.totalImages;
+            this.updateCarousel();
+        }
+
+        prevImage() {
+            this.currentIndex = (this.currentIndex - 1 + this.totalImages) % this.totalImages;
+            this.updateCarousel();
+        }
+
+        updateCarousel() {
+            const offset = -this.currentIndex * 100;
+            this.imagesContainer.style.transform = `translateX(${offset}%)`;
+        }
+
+        addHoverPause() {
+            this.carousel.addEventListener('mouseenter', () => this.stopAutoSlide());
+            this.carousel.addEventListener('mouseleave', () => this.startAutoSlide());
+        }
+    }
+
+    // Initialize all carousels on the page
+    document.addEventListener('DOMContentLoaded', () => {
+        const carousels = document.querySelectorAll('.carousel');
+        carousels.forEach(carouselElement => {
+            new Carousel(carouselElement, 2000); // 2000ms = 2 seconds
+        });
+    });
+</script>
+</body>
+</html>
