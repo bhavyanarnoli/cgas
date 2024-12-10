@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredient Information</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fff0f5; /* Lavender Blush */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            width: 100%;
+            background-color: #E91E63; /* Pink */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 500;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-menu a:hover {
+            background-color: #D81B60;
+        }
+
+        /* Container Styles */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin: 120px auto 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #E91E63;
+        }
+
+        /* Visualization Sections */
+        .visualization {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ffe4e1; /* Misty Rose */
+            border-radius: 8px;
+            border: 1px solid #E91E63;
+            text-align: center;
+        }
+
+        .visualization img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar-menu {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar-menu a {
+                width: 100%;
+                text-align: left;
+                padding: 10px 0;
+            }
+
+            .container {
+                padding: 160px 20px 20px;
+                margin: 160px 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">Ingredient Pairing</a>
+            <div class="navbar-menu">
+                <a href="/">Home</a>
+                <a href="/visualization">Visualization</a>
+                <a href="/information">Information</a> <!-- Assuming 'Information' is an in-page section -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container" id="visualization">
+        <h1>Ingredient Information</h1>
+        
+        <!-- Visualization Section -->
+        <div class="visualization">
+            <h3>Frequency-Rank Distribution of Ingredients</h3>
+            <a href="https://ibb.co/g4nJ9h8"><img src="https://i.ibb.co/qJZpjV8/frequencyrank.jpg" alt="frequencyrank" border="0"></a>
+        </div>
+        <div class="visualization">
+            <h3>Cumulative Distribution of Recipe Sizes</h3>
+            <a href="https://ibb.co/y8nd1DC"><img src="https://i.ibb.co/fCYq5bW/cdfrecipesize.jpg" alt="cdfrecipesize" border="0"></a>       
+        </div>
+        <div class="visualization">
+            <h3>Recipe Size Distribution</h3>
+            <a href="https://ibb.co/mhhFwzW"><img src="https://i.ibb.co/GCC3LPS/recipesize.jpg" alt="recipesize" border="0"></a>  
+      </div>
+    </div>
+
+</body>
+</html>

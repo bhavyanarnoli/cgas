@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredient Pairing Visualization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fff0f5; /* Lavender Blush */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            width: 100%;
+            background-color: #E91E63; /* Pink */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 20px;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: 500;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-menu a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-menu a:hover {
+            background-color: #D81B60;
+        }
+
+        /* Container Styles */
+        .container {
+            width: 90%;
+            max-width: 1200px; /* Increased max-width for full coverage */
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 10px 60px 40px; /* Increased padding for better spacing */
+            margin: 120px auto 20px; /* Adjusted margin to avoid overlap with navbar */
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #E91E63;
+        }
+
+        /* Introductory Paragraph */
+        .intro {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        /* Form Styles */
+        form {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+            display: block;
+            text-align: left;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0 20px;
+            border: 2px solid #E91E63;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #fff0f5;
+            transition: border 0.3s ease;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border: 2px solid #C2185B;
+            outline: none;
+        }
+
+        button {
+            padding: 15px 30px;
+            background-color: #E91E63;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #C2185B;
+        }
+
+        /* Visualization Sections */
+        .visualization {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ffe4e1; /* Misty Rose */
+            border-radius: 8px;
+            border: 1px solid #E91E63;
+            text-align: center;
+        }
+
+        .visualization img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        /* Error Message Styles */
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar-menu {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar-menu a {
+                width: 100%;
+                text-align: left;
+                padding: 10px 0;
+            }
+
+            .container {
+                padding: 160px 20px 20px;
+                margin: 160px 10px 20px;
+            }
+
+            .carousel {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">Ingredient Pairing</a>
+            <div class="navbar-menu">
+                <a href="/">Home</a>
+                <a href="/visualization">Visualization</a>
+                <a href="/information">Information</a> <!-- Assuming 'Information' is an in-page section -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container" id="visualization">
+        <h1>Ingredient Pairing Visualization</h1>
+        
+        <!-- Introductory Paragraph -->
+        <p class="intro">
+            Explore the relationships between different ingredients through our interactive visualization tool. Enter the number of ingredients you want to analyze, and our system will generate graphs showcasing the pairings based on molecular similarities and flavor profiles.
+        </p>
+        
+        <!-- Display Error Message if Exists -->
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        
+        <!-- Form to Input Number of Ingredients -->
+        <form method="POST" action="/visualization">
+            <label for="num_ingredients">Number of Ingredients:</label>
+            <input type="number" id="num_ingredients" name="num_ingredients" min="1" max="100" placeholder="e.g., 5" value="{{ num_ingredients }}" required>
+            
+            <button type="submit">Generate Visualization</button>
+        </form>
+        
+        <!-- NetworkX Graph Display -->
+        {% if plot_image_graph %}
+        <div class="visualization">
+            <h3>Your Ingredient Pairing Graph:</h3>
+            <img src="data:image/png;base64,{{ plot_image_graph }}" alt="Ingredient Pairing Graph">
+        </div>
+        {% endif %}
+        
+        <!-- Seaborn Heatmap Display -->
+        {% if plot_image_heatmap %}
+        <div class="visualization">
+            <h3>Your Ingredient Pairing Heatmap:</h3>
+            <img src="data:image/png;base64,{{ plot_image_heatmap }}" alt="Ingredient Pairing Heatmap">
+        </div>
+        {% endif %}
+        
+        <!-- Word Cloud Display -->
+        {% if plot_image_wordcloud %}
+        <div class="visualization">
+            <h3>Your Ingredient Word Cloud:</h3>
+            <img src="data:image/png;base64,{{ plot_image_wordcloud }}" alt="Ingredient Word Cloud">
+        </div>
+        {% endif %}
+    </div>
+
+    
+    <script>
+        // Smooth scrolling for navbar links
+        document.querySelectorAll('.navbar-menu a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 70, // Adjust for fixed navbar height
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+                // For external or route-based links, allow default behavior
+            });
+        });
+
+    </script>
+
+</body>
+</html>
