@@ -192,11 +192,11 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="navbar-container">
-            <a href="/" class="navbar-brand">Ingredient Pairing</a>
+            <a href="#" class="navbar-brand">Ingredient Pairing</a>
             <div class="navbar-menu">
-                <a href="/">Home</a>
-                <a href="/visualization">Visualization</a>
-                <a href="/information">Information</a> <!-- Assuming 'Information' is an in-page section -->
+                <a href="#home">Home</a>
+                <a href="#visualization">Visualization</a>
+                <a href="#information">Information</a>
             </div>
         </div>
     </nav>
@@ -246,29 +246,32 @@
             <img src="data:image/png;base64,{{ plot_image_wordcloud }}" alt="Ingredient Word Cloud">
         </div>
         {% endif %}
+        
+        <!-- t-SNE Visualization Display -->
+        {% if plot_image_tsne %}
+        <div class="visualization">
+            <h3>Your Ingredient t-SNE Visualization:</h3>
+            <img src="data:image/png;base64,{{ plot_image_tsne }}" alt="Ingredient t-SNE Visualization">
+        </div>
+        {% endif %}
     </div>
 
-    
+    <!-- Optional JavaScript for Navbar Navigation -->
     <script>
         // Smooth scrolling for navbar links
         document.querySelectorAll('.navbar-menu a').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href.startsWith('#')) {
-                    e.preventDefault();
-                    const targetId = href.substring(1);
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) {
-                        window.scrollTo({
-                            top: targetSection.offsetTop - 70, // Adjust for fixed navbar height
-                            behavior: 'smooth'
-                        });
-                    }
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 70, // Adjust for fixed navbar height
+                        behavior: 'smooth'
+                    });
                 }
-                // For external or route-based links, allow default behavior
             });
         });
-
     </script>
 
 </body>
