@@ -5,7 +5,7 @@
 The **Ingredient Pairing Tool** is an intuitive web-based platform designed to assist users in finding the best ingredient pairings based on various advanced algorithms. Leveraging concepts like molecular compatibility and data-driven recommendations, this tool helps enhance culinary experiences by suggesting substitutes or complementary ingredients.
 
 The application is highly customizable, allowing users to select their desired algorithm for pairing generation, ensuring flexibility and versatility.
-
+\link[apriori.py] and \link[cosinesimilarity.py] are code for algos in app.py , which are being imported from these py files
 ## Features
 
 
