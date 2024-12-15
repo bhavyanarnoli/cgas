@@ -40,7 +40,6 @@ This file serves as the front-end interface of the tool, providing the following
 
 ### 2. Backend Application (e.g., Flask App)
 
-#### #BackendApplication
 
 The backend application processes user inputs and generates ingredient pairings. Here's how it works:
 
