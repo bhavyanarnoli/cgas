@@ -17,6 +17,66 @@ The application is highly customizable, allowing users to select their desired a
 - **Mobile-Friendly**: Fully responsive design, ensuring a seamless experience across devices.
 - **New Multi-Ingredient Pairing Feature**: Input multiple ingredients at once to generate pairings that consider combined compatibility.
 
+## Data Generate of non_duplicate_ingredients.csv and recipes.csv 
+
+# Recipe Scraping and Ingredient Processing
+This project scrapes recipes from the AllRecipes website, cleans up the extracted ingredients, and processes them to generate meaningful statistics such as frequency counts and recipe size distributions.
+
+
+## Requirements
+
+Install the required libraries:
+
+```bash
+pip install requests beautifulsoup4 pandas spacy matplotlib
+python -m spacy download en_core_web_sm
+```
+
+## Functions
+
+- **`get_proxies(file_path)`**: Loads proxies from a file.
+- **`rotate_proxy(proxy_counter, proxies)`**: Rotates proxies during scraping.
+- **`parse_category_urls(s, proxy_counter, proxies, max_categories, use_proxy=False)`**: Scrapes category URLs.
+- **`get_category(s, category_url, proxy_counter, proxies, use_proxy=False)`**: Fetches recipe category data.
+- **`get_category_recipes_urls(category)`**: Extracts recipe URLs from a category.
+- **`get_recipe(s, recipe_url, proxy_counter, proxies, use_proxy=False)`**: Scrapes recipe data and saves to CSV.
+- **`scrape_recipes(s, recipe_categories, max_categories, max_recipes)`**: Main scraping function for collecting recipes.
+
+## Ingredient Processing
+
+- **`clean_ingredient(ingredient)`**: Cleans ingredient text.
+- **`extract_ingredients_ner(ingredient_text)`**: Extracts ingredients using spaCy NER.
+
+## Data Analysis
+
+- **Recipe Size Distribution**: Histogram of ingredients per recipe (saved as `recipe_size_distribution_probability.png`).
+- **Cumulative Recipe Size Distribution**: Cumulative distribution of recipe sizes (saved as `cumulative_recipe_size_distribution.png`).
+
+## Files
+
+- **`recipes.csv`**: Scraped recipe data.
+- **`non_duplicate_ingredients.csv`**: Cleaned, non-duplicate ingredients.
+- **`recipes_ingredients.txt`**: 100 random recipes with ingredients.
+- **`unique_ingredient_frequencies.csv`**: Ingredient frequency counts.
+- **`recipe_size_distribution_probability.png`**: Recipe size distribution histogram.
+- **`cumulative_recipe_size_distribution.png`**: Cumulative size distribution plot.
+
+## How to Run
+
+1. Run the `scrape_recipes` function to scrape recipes.
+2. Use `clean_ingredient` and `extract_ingredients_ner` for ingredient processing.
+3. Analyze data with the provided visualization functions.
+
+## Troubleshooting
+
+- Install missing dependencies.
+- Check proxy settings if facing issues with scraping.
+
+--- 
+
+You can copy this directly into your README. Let me know if you'd like any changes!
+
+
 ## File Structure
 
 
