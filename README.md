@@ -73,6 +73,18 @@ This file provides an interactive platform to visualize ingredient pairings. It 
 - **Graph Visualization**: Generates NetworkX graphs to showcase ingredient pairings.
 - **Heatmap Visualization**: Displays a Seaborn heatmap for better insights into pairing relationships.
 - **Word Cloud**: Generates a word cloud highlighting frequently paired ingredients.
+- **T-SNE**: The plot_tsne_for_ingredients function visualizes the similarity between ingredients by applying t-SNE after vectorizing them using TF-IDF. It generates a 2D scatter plot where similar ingredients cluster together.
+
+## Substitution Use Case:
+Since the function groups similar ingredients together, the plot can help identify substitutions. For instance, ingredients that appear close together in the t-SNE visualization can be considered similar and potentially interchangeable in recipes. This clustering could be useful for recommending ingredient substitutions based on similarity, dietary preferences, or availability.
+
+### 3. `information.html`
+
+It has three plots showing the recipe size of the data, frequence rank curve and Cumulative Distribution of Recipe Sizes
+
+
+
+
 
 #### Working
 
