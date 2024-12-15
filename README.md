@@ -2,7 +2,6 @@
 
 ## Overview
 
-
 The **Ingredient Pairing Tool** is an intuitive web-based platform designed to assist users in finding the best ingredient pairings based on various advanced algorithms. Leveraging concepts like molecular compatibility and data-driven recommendations, this tool helps enhance culinary experiences by suggesting substitutes or complementary ingredients.
 
 The application is highly customizable, allowing users to select their desired algorithm for pairing generation, ensuring flexibility and versatility.
@@ -16,14 +15,12 @@ The application is highly customizable, allowing users to select their desired a
 - **Visualization Tool**: Generate visual representations of ingredient relationships, including graphs, heatmaps, and word clouds.
 - **Image Carousel**: A visual component displaying various food-related images to enhance user engagement.
 - **Mobile-Friendly**: Fully responsive design, ensuring a seamless experience across devices.
+- **New Multi-Ingredient Pairing Feature**: Input multiple ingredients at once to generate pairings that consider combined compatibility.
 
 ## File Structure
 
-### #FileStructure
 
 ### 1. `index.html`
-
-#### #indexHTML
 
 This file serves as the front-end interface of the tool, providing the following functionalities:
 
@@ -67,8 +64,6 @@ The backend application processes user inputs and generates ingredient pairings.
 - The backend renders the `index.html` template, passing the substitutes to be displayed dynamically in the "Suggested Pairings" section.
 
 ### 3. `visualization.html`
-
-#### #VisualizationHTML
 
 This file provides an interactive platform to visualize ingredient pairings. It leverages Python libraries like NetworkX, Seaborn, and WordCloud for graph-based, heatmap-based, and word cloud representations.
 
@@ -128,25 +123,25 @@ This file provides an interactive platform to visualize ingredient pairings. It 
 
    - Use the Ingredient Pairing Tool on the main page to generate ingredient suggestions.
    - Navigate to the Visualization tab to explore graphs, heatmaps, and word clouds.
+   - Experiment with the new multi-ingredient pairing feature.
 
 ## Screenshots
 
-### #Screenshots
 
 - **Main Interface (index.html)**
 - **Visualization Page (visualization.html)**
+- **Multi-Ingredient Pairing Feature**
 
 ## Future Enhancements
 
-### #FutureEnhancements
 
 - **User Accounts**: Add functionality for users to save their pairing preferences.
 - **Ingredient Database Expansion**: Include more ingredients and their molecular data.
 - **Real-Time Data**: Enable real-time data updates from external APIs.
 - **Machine Learning Models**: Integrate advanced ML models for even better pairing recommendations.
+- **Multi-Language Support**: Allow users to interact with the tool in multiple languages.
 
 ## Contributing
-
 
 We welcome contributions from the community! If you'd like to contribute:
 
@@ -173,11 +168,9 @@ We welcome contributions from the community! If you'd like to contribute:
 
 ## License
 
-
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Contact
-
 
 For queries or feedback, feel free to reach out:
 
