@@ -7,12 +7,14 @@ from cosinesimilarity import autoencoder_pairings as autoencoders_func
 from apriori import find_similar_ingredients_fp_growth as fp_growth_func
 from apriori import find_similar_ingredients_svd as svd_func
 from apriori import recommend_similar_ingredients_dbscan as dbscan_func
-from visualization import plot_top_cooccurring_pairs
+from visualization import (
+    plot_top_cooccurring_pairs,
+    plot_top_n_cooccurring_ingredients_heatmap,
+    generate_ingredient_wordcloud,
+    plot_tsne_for_ingredients
+)
 import matplotlib
-matplotlib.use('Agg') 
-
-
-from visualization import plot_top_n_cooccurring_ingredients_heatmap
+matplotlib.use('Agg')  # Use a non-interactive backend
 
 app = Flask(__name__)
 
@@ -49,12 +51,6 @@ def index():
         
     return render_template('index.html', substitutes=substitutes, selected_algorithm=selected_algorithm)
 
-from visualization import (
-    plot_top_cooccurring_pairs, 
-    plot_top_n_cooccurring_ingredients_heatmap, 
-    generate_ingredient_wordcloud
-)
-
 
 @app.route('/visualization', methods=['GET', 'POST'])
 def visualization():
@@ -62,6 +58,7 @@ def visualization():
     plot_image_graph = None
     plot_image_heatmap = None
     plot_image_wordcloud = None
+    plot_image_tsne = None  # Renamed to avoid shadowing
     num_ingredients = 10  # Default value
 
     if request.method == 'POST':
@@ -97,20 +94,28 @@ def visualization():
         save_path=None  # Set to a path if you want to save the image on the server
     )
 
+    # Corrected function call with appropriate parameter names and variable naming
+    plot_image_tsne = plot_tsne_for_ingredients(
+        num_ingredients=num_ingredients
+    )
+
     # Check for plot generation failures and set error messages accordingly
-    if not plot_image_graph and not plot_image_heatmap and not plot_image_wordcloud:
+    if not plot_image_graph and not plot_image_heatmap and not plot_image_wordcloud and not plot_image_tsne:
         if not error_message:
             error_message = "Unable to generate any plots. Please check the CSV file and try again."
     else:
-        if not plot_image_graph and not plot_image_heatmap:
+        if not plot_image_graph and not plot_image_heatmap and not plot_image_wordcloud:
             if not error_message:
-                error_message = "Unable to generate the NetworkX graph and heatmap. Please check the CSV file and try again."
-        elif not plot_image_graph and not plot_image_wordcloud:
+                error_message = "Unable to generate the NetworkX graph, heatmap, and word cloud. Please check the CSV file and try again."
+        elif not plot_image_graph and not plot_image_heatmap and not plot_image_tsne:
             if not error_message:
-                error_message = "Unable to generate the NetworkX graph and word cloud. Please check the CSV file and try again."
-        elif not plot_image_heatmap and not plot_image_wordcloud:
+                error_message = "Unable to generate the NetworkX graph, heatmap, and t-SNE plot. Please check the CSV file and try again."
+        elif not plot_image_graph and not plot_image_wordcloud and not plot_image_tsne:
             if not error_message:
-                error_message = "Unable to generate the heatmap and word cloud. Please check the CSV file and try again."
+                error_message = "Unable to generate the NetworkX graph, word cloud, and t-SNE plot. Please check the CSV file and try again."
+        elif not plot_image_heatmap and not plot_image_wordcloud and not plot_image_tsne:
+            if not error_message:
+                error_message = "Unable to generate the heatmap, word cloud, and t-SNE plot. Please check the CSV file and try again."
         else:
             if not plot_image_graph:
                 if not error_message:
@@ -121,12 +126,16 @@ def visualization():
             if not plot_image_wordcloud:
                 if not error_message:
                     error_message = "Unable to generate the word cloud. Please check the CSV file and try again."
+            if not plot_image_tsne:
+                if not error_message:
+                    error_message = "Unable to generate the t-SNE plot. Please check the CSV file and try again."
 
     return render_template(
         'visualization.html',
         plot_image_graph=plot_image_graph,
         plot_image_heatmap=plot_image_heatmap,
         plot_image_wordcloud=plot_image_wordcloud,
+        plot_image_tsne=plot_image_tsne,  # Updated variable name
         num_ingredients=num_ingredients,
         error=error_message
     )
@@ -136,6 +145,6 @@ def visualization():
 def information():
     return render_template('information.html')
 
+
 if __name__ == '__main__':
     app.run(debug=True)
-

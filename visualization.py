@@ -7,6 +7,8 @@ from collections import Counter
 from wordcloud import WordCloud, STOPWORDS
 import io
 import base64
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.manifold import TSNE
 
 def plot_top_cooccurring_pairs(file_path, top_n=20):
     """
@@ -354,4 +356,85 @@ def generate_ingredient_wordcloud(
     # Encode the bytes to base64
     image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
     
+    return image_base64
+
+def plot_tsne_for_ingredients( num_ingredients=None):
+    """
+    Plots a t-SNE graph for ingredient similarity.
+    
+    Parameters:
+    - file_path: str, path to the CSV file containing 'Ingredient' column.
+    - num_ingredients: int or None, number of ingredients to include (default: all ingredients).
+    
+    Returns:
+    - str: Base64-encoded PNG image of the t-SNE plot.
+    """
+    # Load the dataset
+    file_path = 'non_duplicate_ingredients.csv'
+    try:
+        ingredients_data = pd.read_csv(file_path)
+    except FileNotFoundError:
+        print(f"Error: The file '{file_path}' was not found.")
+        return None
+    except pd.errors.EmptyDataError:
+        print("Error: The provided CSV file is empty.")
+        return None
+    except pd.errors.ParserError:
+        print("Error: The provided CSV file is malformed.")
+        return None
+
+    # Check if 'Ingredient' column exists
+    if 'Ingredient' not in ingredients_data.columns:
+        print("The CSV file must contain an 'Ingredient' column.")
+        return None
+
+    # Extract unique ingredients
+    unique_ingredients = ingredients_data['Ingredient'].unique()
+
+    # Limit the number of ingredients if specified
+    if num_ingredients:
+        unique_ingredients = unique_ingredients[:num_ingredients]
+
+    if len(unique_ingredients) < 2:
+        print("Not enough unique ingredients to perform t-SNE.")
+        return None
+
+    # Step 1: Vectorize the ingredients using TF-IDF
+    vectorizer = TfidfVectorizer()
+    try:
+        ingredient_vectors = vectorizer.fit_transform(unique_ingredients)
+    except Exception as e:
+        print(f"Error during TF-IDF vectorization: {e}")
+        return None
+
+    # Step 2: Apply t-SNE to reduce dimensionality to 2D
+    try:
+        tsne = TSNE(n_components=2, random_state=42, perplexity=2, n_iter=1000)
+        ingredient_tsne = tsne.fit_transform(ingredient_vectors.toarray())
+    except Exception as e:
+        print(f"Error during t-SNE computation: {e}")
+        return None
+
+    # Step 3: Plot the t-SNE graph
+    plt.figure(figsize=(12, 8))
+    plt.scatter(ingredient_tsne[:, 0], ingredient_tsne[:, 1], alpha=0.7)
+
+    # Annotate points with ingredient names
+    for i, ingredient in enumerate(unique_ingredients):
+        plt.annotate(ingredient, (ingredient_tsne[i, 0], ingredient_tsne[i, 1]), fontsize=8, alpha=0.75)
+
+    plt.title("t-SNE Visualization of Ingredient Similarity")
+    plt.xlabel("t-SNE Dimension 1")
+    plt.ylabel("t-SNE Dimension 2")
+    plt.tight_layout()
+
+    # Save the plot to a bytes buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    plt.close()
+
+    # Encode the bytes to base64
+    image_base64 = base64.b64encode(buf.getvalue()).decode('utf-8')
+
     return image_base64
